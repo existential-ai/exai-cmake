@@ -1,4 +1,4 @@
-function(nyu_add_sv TARGET)
+function(exai_add_sv TARGET)
   foreach(_src IN LISTS ARGN)
     file(REAL_PATH ${_src} _real)
     set_property(TARGET ${TARGET} APPEND
@@ -13,7 +13,7 @@ function(nyu_add_sv TARGET)
   endforeach()
 endfunction()
 
-function(nyu_sv_include_directories TARGET)
+function(exai_sv_include_directories TARGET)
   foreach(_dir IN LISTS ARGN)
     file(REAL_PATH ${_dir} _real)
     set_property(TARGET ${TARGET} APPEND
@@ -25,12 +25,12 @@ function(nyu_sv_include_directories TARGET)
   endforeach()
 endfunction()
 
-function(nyu_add_sv_library TARGET)
+function(exai_add_sv_library TARGET)
   add_library(${TARGET} INTERFACE)
   nyu_add_sv(${TARGET} ${ARGN})
 endfunction()
 
-function(__nyu_link_internal TARGET)
+function(__exai_link_internal TARGET)
   foreach(_lib IN LISTS ARGN)
     set_property(TARGET ${TARGET} APPEND
       PROPERTY SV_SOURCES $<TARGET_GENEX_EVAL:${_lib},$<TARGET_PROPERTY:${_lib},SV_SOURCES>>
@@ -50,12 +50,12 @@ function(__nyu_link_internal TARGET)
   endforeach()
 endfunction()
 
-function(nyu_link_sv TARGET LINKAGE)
+function(exai_link_sv TARGET LINKAGE)
   target_link_libraries(${TARGET} ${LINKAGE} ${ARGN})
   __nyu_link_internal(${TARGET} ${ARGN})
 endfunction()
 
-function(nyu_include_fixup)
+function(exai_include_fixup)
   foreach(_target IN LISTS ARGN)
     get_target_property(_srcs ${_target} SV_SOURCES)
 
@@ -82,12 +82,12 @@ function(nyu_include_fixup)
     get_target_property(_libs ${_target} INTERFACE_LINK_LIBRARIES)
 
     if(_libs)
-      __nyu_link_internal(${_target} ${_libs})
+      __exai_link_internal(${_target} ${_libs})
     endif()
   endforeach()
 endfunction()
 
-function(nyu_install_sv)
+function(exai_install_sv)
   cmake_parse_arguments(PARSE_ARGV 0 ARG
     ""
     "EXPORT;NAMESPACE;SV_DEST;EXPORT_DEST"
@@ -137,7 +137,7 @@ endfunction()
 
 find_package(verilator CONFIG REQUIRED)
 
-function(nyu_verilate TARGET)
+function(exai_verilate TARGET)
   get_target_property(_srcs ${TARGET} SV_SOURCES_NOGENEX)
   get_target_property(_dirs ${TARGET} SV_INCLUDE_DIRS_NOGENEX)
 
@@ -152,7 +152,7 @@ function(nyu_verilate TARGET)
   )
 endfunction()
 
-function(nyu_target_verilate TARGET)
+function(exai_target_verilate TARGET)
   cmake_parse_arguments(PARSE_ARGV 1 ARG
     ""
     "PREFIX"

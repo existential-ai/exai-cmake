@@ -1,6 +1,6 @@
-option(NYU_BUILD_TESTS "Build test binaries and add them to CTest" FALSE)
+option(EXAI_BUILD_TESTS "Build test binaries and add them to CTest" FALSE)
 
-function(nyu_setup_test)
+function(exai_setup_test)
   cmake_parse_arguments(PARSE_ARGV 0 ARG
     ""
     "TEST_NAME;TOP_MODULE"
@@ -15,9 +15,9 @@ function(nyu_setup_test)
     set(ARG_TOP_MODULE ${ARG_TEST_NAME})
   endif()
 
-  if(NYU_BUILD_TESTS)
+  if(EXAI_BUILD_TESTS)
     add_executable(${ARG_TEST_NAME} ${ARG_CPP_SOURCES})
-    nyu_add_sv(${ARG_TEST_NAME} ${ARG_SV_SOURCES})
+    exai_add_sv(${ARG_TEST_NAME} ${ARG_SV_SOURCES})
 
     target_compile_features(${ARG_TEST_NAME} PRIVATE cxx_std_20)
 
@@ -26,10 +26,10 @@ function(nyu_setup_test)
     endif()
 
     if(DEFINED ARG_SV_LIBS)
-      nyu_link_sv(${ARG_TEST_NAME} PRIVATE ${ARG_SV_LIBS})
+      exai_link_sv(${ARG_TEST_NAME} PRIVATE ${ARG_SV_LIBS})
     endif()
 
-    nyu_verilate(${ARG_TEST_NAME}
+    exai_verilate(${ARG_TEST_NAME}
       COVERAGE
       PREFIX "V${ARG_TOP_MODULE}"
       TOP_MODULE ${ARG_TOP_MODULE}
