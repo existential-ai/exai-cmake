@@ -27,7 +27,7 @@ endfunction()
 
 function(exai_add_sv_library TARGET)
   add_library(${TARGET} INTERFACE)
-  nyu_add_sv(${TARGET} ${ARGN})
+  exai_add_sv(${TARGET} ${ARGN})
 endfunction()
 
 function(__exai_link_internal TARGET)
@@ -52,7 +52,7 @@ endfunction()
 
 function(exai_link_sv TARGET LINKAGE)
   target_link_libraries(${TARGET} ${LINKAGE} ${ARGN})
-  __nyu_link_internal(${TARGET} ${ARGN})
+  __exai_link_internal(${TARGET} ${ARGN})
 endfunction()
 
 function(exai_include_fixup)
